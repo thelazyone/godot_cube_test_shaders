@@ -1,8 +1,8 @@
 shader_type canvas_item;
 
 // Setting the pixel size as an external input
-uniform int pixelSize: hint_range(4, 32, 4) = 2;
-uniform int colorRange: hint_range (1, 32, 1) = 16;
+uniform int pixelSize: hint_range(2, 32, 2) = 2;
+uniform int colorRange: hint_range (1, 64, 1) = 16;
 uniform float hardness: hint_range (0., 1.) = 0.5;
 
 // Screen coordinated are sampled
