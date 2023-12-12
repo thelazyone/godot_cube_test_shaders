@@ -9,10 +9,14 @@
 render_priority = 0
 shader = ExtResource("1_be8bg")
 shader_parameter/shadow_color = Color(0, 0, 0, 1)
-shader_parameter/check_range = 2.209
+shader_parameter/light_color = Color(1, 1, 1, 1)
+shader_parameter/check_range = 3.517
 shader_parameter/spacing_threhsold = 3.115
+shader_parameter/normal_threshold = 0.023
 shader_parameter/line_thickness = 0.1
 shader_parameter/edge_intensity = 1.484
+shader_parameter/ridge_intensity = 4.89
+shader_parameter/hardness = 0.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_uoa21"]
 material = SubResource("ShaderMaterial_0v1ei")
@@ -21,6 +25,7 @@ material = SubResource("ShaderMaterial_0v1ei")
 shader = ExtResource("3_viegi")
 shader_parameter/pixelSize = 4
 shader_parameter/colorRange = 32
+shader_parameter/hardness = 0.0
 
 [node name="World" type="Node3D"]
 
@@ -33,7 +38,7 @@ fov = 67.0
 size = 15.414
 
 [node name="MeshMask(edges)" type="MeshInstance3D" parent="CamBase/Camera3D"]
-transform = Transform3D(-30.0134, -0.507092, 0.00364304, 0.581751, -26.161, -0.0746455, 0.00654602, -0.0835724, 23.3439, -0.0866184, -0.242222, -0.456816)
+transform = Transform3D(-30.0134, -0.507092, 0.00364399, 0.581751, -26.161, -0.0746455, 0.00654602, -0.0835733, 23.3439, -0.0866179, -0.242224, -0.456814)
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_uoa21")
 skeleton = NodePath("../../../CanvasLayer/ColorRect")
