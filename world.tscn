@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4s6fv0sufti7"]
+
+[ext_resource type="ArrayMesh" uid="uid://bdup60hthctja" path="res://scene.obj" id="1_pimw6"]
+[ext_resource type="Material" uid="uid://d0ba3l22xj25p" path="res://orange.tres" id="2_ra70d"]
+[ext_resource type="Shader" path="res://edges.gdshader" id="3_q25bt"]
+[ext_resource type="Shader" path="res://pixel_1.gdshader" id="3_viegi"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0v1ei"]
+render_priority = 0
+shader = ExtResource("3_q25bt")
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/line_thickness = 1.764
+shader_parameter/edge_sensitivity = 3.249
+shader_parameter/edge_threshold_min = 0.0
+shader_parameter/edge_threshold_max = 6.599
+shader_parameter/edge_threshold_ridges = 10.828
+shader_parameter/border_intensity = 3.698
+shader_parameter/dd_diff_thresh = 0.928
+
+[sub_resource type="QuadMesh" id="QuadMesh_uoa21"]
+material = SubResource("ShaderMaterial_0v1ei")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_salop"]
+shader = ExtResource("3_viegi")
+shader_parameter/pixelSize = 4
+shader_parameter/colorRange = 6
+
+[node name="World" type="Node3D"]
+
+[node name="CamBase" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="CamBase"]
+transform = Transform3D(-0.754498, -0.379662, 0.535341, -0.0177195, 0.827179, 0.56166, -0.656063, 0.414285, -0.630832, 6.49942, 6.9418, -7.08681)
+projection = 1
+fov = 67.0
+size = 15.414
+
+[node name="MeshMask(edges)" type="MeshInstance3D" parent="CamBase/Camera3D"]
+transform = Transform3D(-22.895, -0.386829, 0.00277233, 0.443776, -19.9562, -0.0569348, 0.00498867, -0.063756, 17.8071, 0.33444, 3.02105, -2.00168)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_uoa21")
+skeleton = NodePath("../../../CanvasLayer/ColorRect")
+
+[node name="Test Objects" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.005, 0, 0, 0, 1.005, 0, 0, 0, 1.005, 0, 0, 0)
+mesh = ExtResource("1_pimw6")
+surface_material_override/0 = ExtResource("2_ra70d")
+surface_material_override/1 = ExtResource("2_ra70d")
+surface_material_override/2 = ExtResource("2_ra70d")
+surface_material_override/3 = ExtResource("2_ra70d")
+surface_material_override/4 = ExtResource("2_ra70d")
+surface_material_override/5 = ExtResource("2_ra70d")
+surface_material_override/6 = ExtResource("2_ra70d")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.26263, 9.64167, -0.438887)
+light_energy = 10.0
+light_indirect_energy = 0.0
+light_volumetric_fog_energy = 0.0
+omni_range = 17.632
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_salop")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
