@@ -24,9 +24,10 @@ material = SubResource("ShaderMaterial_0v1ei")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rxksv"]
 shader = ExtResource("3_viegi")
-shader_parameter/pixelSize = 4
-shader_parameter/colorRange = 16
+shader_parameter/pixelSize = 2
+shader_parameter/colorRange = 8
 shader_parameter/hardness = 0.0
+shader_parameter/dither = 0.36
 
 [node name="World" type="Node3D"]
 

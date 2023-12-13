@@ -4,10 +4,36 @@ shader_type canvas_item;
 uniform int pixelSize: hint_range(2, 32, 2) = 2;
 uniform int colorRange: hint_range (1, 64, 1) = 16;
 uniform float hardness: hint_range (0., 1.) = 0.5;
+uniform float dither: hint_range (0., 1.) = 0.5;
 
 // Screen coordinated are sampled
 uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
 uniform sampler2D screen_texture_near : hint_screen_texture, filter_nearest_mipmap;
+
+// Simple random function from https://thebookofshaders.com/10/
+float random2D (vec2 coord) {
+    return fract(sin(dot(coord.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+
+// Determining whether the current point is using the bottom or top value.
+float discreteWithDither (float value, float stepValue, vec2 coord) {
+	
+	// Calculating the remainder
+	float floorValue = (stepValue * floor (value/stepValue));
+	float remainderValue = value - floorValue;
+	
+
+	// if remainder is low, chances should be that the dither is on the bottom one
+	if (((1. - dither) / 2.) + random2D(coord) * dither > smoothstep((1. - dither) / 2., (1. + dither) / 2., remainderValue / stepValue)) {
+		return floorValue;
+	}
+	else
+	{
+		return floorValue + stepValue;
+	}
+}
 
 void fragment () 
 {
@@ -31,15 +57,14 @@ void fragment ()
 	//}
 	output_texture = texture(screen_texture_near, vec2(x, y)) * hardness + output_texture * (1. - hardness); 
 	
-
 			
 	// Finally setting the output colour per pixel (and subpixel)
 	// But sub-sampling the colour tones into a more 8 bit style.bool
 	// TODO go for a proper palette instead!
-	float colorRangeF = float(colorRange);
-	float r = floor(output_texture[0] * colorRangeF) / colorRangeF;
-	float g = floor(output_texture[1] * colorRangeF) / colorRangeF;
-	float b = floor(output_texture[2] * colorRangeF) / colorRangeF;
+	float colorStepF = 1. / float(colorRange);
+	float r = discreteWithDither(output_texture[0], colorStepF, vec2(x, y));
+	float g = discreteWithDither(output_texture[1], colorStepF, vec2(x, y));
+	float b = discreteWithDither(output_texture[2], colorStepF, vec2(x, y));
 	
 	COLOR = vec4(r,g,b,output_texture[3]);;
 }
