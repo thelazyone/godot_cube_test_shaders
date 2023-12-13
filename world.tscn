@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4s6fv0sufti7"]
+[gd_scene load_steps=10 format=3 uid="uid://c4s6fv0sufti7"]
 
 [ext_resource type="Script" path="res://CamMovement.gd" id="1_8y8av"]
 [ext_resource type="Shader" path="res://edges_v2.gdshader" id="1_be8bg"]
+[ext_resource type="Script" path="res://world.gd" id="1_m0qh7"]
 [ext_resource type="ArrayMesh" uid="uid://bdup60hthctja" path="res://scene.obj" id="1_pimw6"]
 [ext_resource type="Material" uid="uid://d0ba3l22xj25p" path="res://orange.tres" id="2_ra70d"]
 [ext_resource type="Shader" path="res://pixel_1.gdshader" id="3_viegi"]
@@ -24,30 +25,33 @@ material = SubResource("ShaderMaterial_0v1ei")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rxksv"]
 shader = ExtResource("3_viegi")
-shader_parameter/pixelSize = 2
-shader_parameter/colorRange = 8
-shader_parameter/hardness = 0.0
-shader_parameter/dither = 0.36
+shader_parameter/pixelSize = 6
+shader_parameter/pixelOffset = Vector2(0, 0)
+shader_parameter/colorRange = 12
+shader_parameter/hardness = 1.0
+shader_parameter/dither = 0.355
 
 [node name="World" type="Node3D"]
+script = ExtResource("1_m0qh7")
 
 [node name="CamBase" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0, 0)
 script = ExtResource("1_8y8av")
 
-[node name="Camera3D" type="Camera3D" parent="CamBase"]
-transform = Transform3D(-1, 4.91389e-08, -7.23057e-08, 0, 0.827081, 0.562083, 8.74228e-08, 0.562083, -0.827081, 0.490454, 8.82721, -10.3666)
+[node name="CameraObject" type="Camera3D" parent="CamBase"]
+transform = Transform3D(-1, 4.91389e-08, -7.23057e-08, 0, 0.827081, 0.562083, 8.74228e-08, 0.562083, -0.827081, 1.05883, 8.82721, -10.3666)
 projection = 1
 fov = 67.0
-size = 15.414
+size = 15.0
 
-[node name="MeshMask(edges)" type="MeshInstance3D" parent="CamBase/Camera3D"]
+[node name="MeshMask(edges)" type="MeshInstance3D" parent="CamBase/CameraObject"]
 transform = Transform3D(-30.0134, -0.507091, 0.0036459, 0.581751, -26.161, -0.0746469, 0.00654605, -0.0835733, 23.3439, -0.113013, -0.292787, -0.382414)
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_uoa21")
-skeleton = NodePath("../../../CanvasLayer/ColorRect")
+skeleton = NodePath("../../../CanvasLayer/PixelScreen")
 
 [node name="Test Objects" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.005, 0, 0, 0, 1.005, 0, 0, 0, 1.005, 0, 0, 0)
+transform = Transform3D(0.487832, 0, -0.878661, 0, 1.005, 0, 0.878661, 0, 0.487832, 0, 0, 0)
 mesh = ExtResource("1_pimw6")
 surface_material_override/0 = ExtResource("2_ra70d")
 surface_material_override/1 = ExtResource("2_ra70d")
@@ -59,7 +63,7 @@ surface_material_override/6 = ExtResource("2_ra70d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="PixelScreen" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_rxksv")
 anchors_preset = 15
 anchor_right = 1.0
